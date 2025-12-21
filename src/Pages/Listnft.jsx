@@ -3,9 +3,7 @@ import React, { useContext, useState } from "react";
 import { PopUp } from "./PopUp";
 import { Vortex } from "../components/ui/vortex";
 
-
 const Listnft = () => {
-
 
   return (
     <div className="overflow-hidden bg-black mt-8">

@@ -6,7 +6,6 @@ const ProtectedRoute = ({ children }) => {
   const { account } = useWallet();
 
   if (!account) {
-    alert("Connect your wallet to continue.");
     return <Navigate to="/" replace />;
   }
 

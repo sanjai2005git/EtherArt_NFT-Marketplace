@@ -1,5 +1,5 @@
 import { useWallet } from "../utils/WalletProvider";
-import logo from "../assets/NFTorium-logo.png";
+import logo from "../assets/NFTorium.png";
 
 const Nav = () => {
   const { connectWallet, signer, account } = useWallet();
@@ -16,6 +16,13 @@ const Nav = () => {
           <img src={logo} alt="NFTorium" className="w-10 h-10" />
           <span>NFTorium</span>
         </div>
+
+        {/* CENTER — INFO (ONLY WHEN NOT CONNECTED) */}
+        {!signer && (
+          <div className="hidden md:block text-sm text-neutral-400">
+            Connect your wallet to continue exploring NFTs
+          </div>
+        )}
 
         {/* RIGHT — ACTIONS */}
         <div className="flex items-center gap-4">
@@ -41,7 +48,7 @@ const Nav = () => {
             </svg>
           </a>
 
-          {/* Wallet */}
+          {/* WALLET */}
           <button
             onClick={connectWallet}
             className="
