@@ -183,7 +183,7 @@ const NFT = () => {
                   Add to favorites
                 </a>
 
-                <a
+                {/* <a
                   href="#"
                   title=""
                   className="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
@@ -207,7 +207,7 @@ const NFT = () => {
                     />
                   </svg>
                   Add to cart
-                </a>
+                </a> */}
               </div>
               <div className="flex w-full pt-10 pb-4 ">
                 {owner == address ? (
