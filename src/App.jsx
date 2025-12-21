@@ -1,33 +1,69 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Listnft from "./Pages/Listnft";
+
 import Nav from "./components/Nav";
-import { MyProvider } from "./utils/context";
 import { Floatingmenu } from "./components/Floatingmenu";
-import Viewnft from "./Pages/Viewnft";
-import NFT from "./components/NFT";
-import Profile from "./Pages/Profile";
+
 import Home from "./Pages/Home";
+import Listnft from "./Pages/Listnft";
+import Viewnft from "./Pages/Viewnft";
+import Profile from "./Pages/Profile";
+import NFT from "./components/NFT";
+
 import { WalletProvider } from "./utils/WalletProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <WalletProvider>
-          <Nav />
-          <Routes>
-            {/* <Route path="/list" element={<Home />} /> */}
-            <Route path="/list" element={<Listnft />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/view" element={<Viewnft />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/view/:id" element={<NFT />} />
-          </Routes>
-          <Floatingmenu />
-        </WalletProvider>
-      </BrowserRouter>
-    </>
+    <BrowserRouter>
+      <WalletProvider>
+        <Nav />
+
+        <Routes>
+          {/* Public Route */}
+          <Route path="/" element={<Home />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/list"
+            element={
+              <ProtectedRoute>
+                <Listnft />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view"
+            element={
+              <ProtectedRoute>
+                <Viewnft />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view/:id"
+            element={
+              <ProtectedRoute>
+                <NFT />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+
+        <Floatingmenu />
+      </WalletProvider>
+    </BrowserRouter>
   );
 }
 

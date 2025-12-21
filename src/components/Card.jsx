@@ -54,14 +54,14 @@ export default function Card({ tokenId }) {
   //   console.log("Updated Display Price:", displayPrice);
   // }, []);
 
-  const handleBuyNFT = async () => {
-    const signer = await provider.getSigner();
-    const contract = new Contract(contractAddress, abi, signer);
-    const res = await contract.executeSale(tokenId, {
-      value: price,
-    });
-    setOwner(await contract.ownerOf(tokenId));
-  };
+  // const handleBuyNFT = async () => {
+  //   const signer = await provider.getSigner();
+  //   const contract = new Contract(contractAddress, abi, signer);
+  //   const res = await contract.executeSale(tokenId, {
+  //     value: price,
+  //   });
+  //   setOwner(await contract.ownerOf(tokenId));
+  // };
 
   // const imageUrl = { nftimg };
   return (

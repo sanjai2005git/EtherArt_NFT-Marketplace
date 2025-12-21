@@ -8,7 +8,7 @@ import { useWallet } from "../utils/WalletProvider";
 const Nav = () => {
   const [walletConnect, setWalletConnect] = useState("Connect Wallet");
   // let {provider, setProvider} = useContext(MyContext);
- const { connectWallet, signer, account } = useWallet();
+  const { connectWallet, signer, account } = useWallet();
  
 
   return (
