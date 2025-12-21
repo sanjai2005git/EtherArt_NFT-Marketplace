@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { useWallet } from "../utils/WalletProvider";
 import logo from "../assets/NFTorium.png";
 
@@ -8,34 +9,64 @@ const Nav = () => {
     ? `${account.slice(0, 8)}...${account.slice(-6)}`
     : null;
 
+  const navLinkClass = ({ isActive }) =>
+    `
+      px-3 py-1.5 rounded-md text-sm
+      transition
+      ${
+        isActive
+          ? "text-white bg-neutral-800"
+          : "text-neutral-400 hover:text-white hover:bg-neutral-900"
+      }
+    `;
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-black border-b border-neutral-800">
-      <nav className="max-w-7xl mx-auto py-4 flex items-center justify-between">
-        {/* LEFT — LOGO */}
+    <header className="fixed top-0 inset-x-0 z-50 bg-black/80 backdrop-blur border-b border-neutral-800">
+      <nav className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+        {/* LEFT — BRAND */}
         <div className="flex items-center gap-3 text-white font-semibold text-lg">
-          <img src={logo} alt="NFTorium" className="w-10 h-10" />
-          <span>NFTorium</span>
+          <img src={logo} alt="NFTorium" className="w-9 h-9" />
+          <span className="tracking-wide">NFTorium</span>
         </div>
 
-        {/* CENTER — INFO (ONLY WHEN NOT CONNECTED) */}
-        {!signer && (
-          <div className="hidden md:block text-sm text-neutral-400">
-            Connect your wallet to continue exploring NFTs
-          </div>
-        )}
+        {/* CENTER — ROUTES */}
+        <div className="hidden md:flex items-center gap-2 font-mono text-xs">
+          <NavLink to="/" className={navLinkClass}>
+            Home
+          </NavLink>
+
+          <NavLink to="/view" className={navLinkClass}>
+            Explore
+          </NavLink>
+
+          <NavLink to="/list" className={navLinkClass}>
+            List
+          </NavLink>
+
+          <NavLink to="/profile" className={navLinkClass}>
+            Profile
+          </NavLink>
+        </div>
 
         {/* RIGHT — ACTIONS */}
         <div className="flex items-center gap-4">
+          {/* Wallet Hint (only when disconnected) */}
+          {!signer && (
+            <span className="hidden lg:block text-xs text-neutral-500 font-mono">
+              wallet:not_connected
+            </span>
+          )}
+
           {/* GitHub */}
           <a
-            href="https://github.com/your-username/nftorium"
+            href="https://github.com/toffee-k21/NFTorium"
             target="_blank"
             rel="noopener noreferrer"
             className="text-neutral-400 hover:text-white transition"
             title="Open source on GitHub"
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -52,10 +83,10 @@ const Nav = () => {
           <button
             onClick={connectWallet}
             className="
-              px-5 py-2 rounded-lg
+              px-4 py-2 rounded-lg
               border border-neutral-700
-              text-white font-medium
               bg-neutral-900
+              text-white text-sm font-mono
               hover:bg-neutral-800
               transition
             "

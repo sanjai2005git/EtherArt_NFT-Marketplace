@@ -12,13 +12,13 @@ import NFT from "./components/NFT";
 
 import { WalletProvider } from "./utils/WalletProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Footer from "./components/ui/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <WalletProvider>
         <Nav />
-
         <Routes>
           {/* Public Route */}
           <Route path="/" element={<Home />} />
@@ -60,8 +60,8 @@ function App() {
             }
           />
         </Routes>
-
-        <Floatingmenu />
+        {/* <Floatingmenu /> */}
+        <Footer />
       </WalletProvider>
     </BrowserRouter>
   );
