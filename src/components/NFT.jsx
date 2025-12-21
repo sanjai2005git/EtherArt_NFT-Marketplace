@@ -124,6 +124,10 @@ const handleRelistNFT = async () => {
 
       setMessage("Listed");
 
+      setTimeout(()=>{
+        navigate("/profile");
+      }, 2000);
+
       setOwner(await contract.ownerOf(tokenId));
 
       setTimeout(() => setMessage(null), 3000);
@@ -150,9 +154,9 @@ const handleRelistNFT = async () => {
     getNFTImage();
   }, []);
 
-  const handleAddFav = (tokenId) => {
-    localStorage.setItem("tokenId", tokenId);
-  };
+  // const handleAddFav = (tokenId) => {
+  //   localStorage.setItem("tokenId", tokenId);
+  // };
 
   return (
     <div className="px-16 py-20 bg-black mt-16">
@@ -286,7 +290,8 @@ const handleRelistNFT = async () => {
                   Ownership
                 </h3>
                 <p className="text-neutral-400 break-all">
-                  <span className="text-neutral-500">Owner:</span> {owner}
+                  <span className="text-neutral-500">Owner:</span>{" "}
+                  {owner == contractAddress ? "Held by NFTorium" : owner}
                 </p>
                 <p className="text-neutral-400 break-all mt-2">
                   <span className="text-neutral-500">Seller:</span> {seller}
