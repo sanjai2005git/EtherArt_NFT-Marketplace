@@ -8,7 +8,7 @@ const Listnft = () => {
 
 
   return (
-    <div className="overflow-hidden bg-black">
+    <div className="overflow-hidden bg-black mt-8">
       <Vortex>
         <div className="my-20 z-10">
           <PopUp />

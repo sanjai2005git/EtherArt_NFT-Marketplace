@@ -135,184 +135,142 @@ const NFT = () => {
   useEffect(() => {
     getNFTImage();
   }, []);
-  
+
+  const handleAddFav = (tokenId) => {
+    localStorage.setItem("tokenId", tokenId);
+  };
+
   return (
-    <div className="px-16 py-20 bg-black ">
-      <section className="antialiased bg-white md:py-16 dark:bg-black">
+    <div className="px-16 py-20 bg-black mt-16">
+      <section className="antialiased dark:bg-black">
         <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-            <div className="max-w-md mx-auto shrink-0 lg:max-w-lg">
-              <img className="w-full dark:hidden" src={nftimg} alt="" />
-              <img className="hidden w-full dark:block" src={nftimg} alt="" />
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-20">
+            {/* IMAGE */}
+            <div className="max-w-md mx-auto lg:max-w-lg bg-neutral-900 rounded-2xl p-6 border border-neutral-800">
+              <img
+                className="w-full rounded-xl object-cover"
+                src={nftimg}
+                alt="NFT"
+              />
             </div>
 
-            <div className="mt-6 sm:mt-8 lg:mt-0">
-              <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">
-                {name}
-              </h1>
-              <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
-                <p className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">
+            {/* INFO */}
+            <div className="mt-8 lg:mt-0 flex flex-col gap-6">
+              {/* TITLE + PRICE */}
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-white">
+                  {name}
+                </h1>
+                <p className="mt-2 text-2xl font-semibold text-green-400">
                   {displayPrice} ETH
                 </p>
               </div>
 
-              <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                <a
-                  href="#"
-                  title=""
-                  className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                  role="button"
-                  onClick={handleAddFav}
-                >
-                  <svg
-                    className="w-5 h-5 -ms-2 me-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                    />
-                  </svg>
-                  Add to favorites
-                </a>
-
-                {/* <a
-                  href="#"
-                  title=""
-                  className="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
-                  role="button"
-                >
-                  <svg
-                    className="w-5 h-5 -ms-2 me-2"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
-                    />
-                  </svg>
-                  Add to cart
-                </a> */}
-              </div>
-              <div className="flex w-full pt-10 pb-4 ">
-                {owner == address ? (
-                  <div className="relative w-1/2 mr-4">
+              {/* ACTION BUTTONS */}
+              <div className="flex gap-4 pt-4">
+                {owner === address ? (
+                  <div className="relative w-1/2">
                     <Button
-                      text="Sell NFT"
-                      className={"p-4"}
+                      text="List for Sale"
+                      className="w-full py-4 text-lg"
                       onClick={() => setPricePop(true)}
                     />
-                    {pricePop == true ? (
-                      <div className="absolute -top-10 left-0 z-50 w-full h-[150px] flex flex-col justify-center bg-neutral-900 p-2">
-                        <label className="text-white">Enter Price</label>
+
+                    {pricePop && (
+                      <div className="absolute top-[-180px] left-0 z-50 w-full bg-neutral-900 border border-neutral-700 rounded-xl p-4">
+                        <label className="text-sm text-neutral-400">
+                          Enter price (ETH)
+                        </label>
                         <input
-                          className="w-full rounded-md bg-neutral-900 my-2 border-[1px] p-2"
                           type="number"
+                          className="w-full mt-2 rounded-md bg-black border border-neutral-700 p-3 text-white"
                           onChange={(e) => setReSellPrice(e.target.value)}
-                        />{" "}
-                        <div className="flex ">
+                        />
+                        <div className="flex gap-2 mt-4">
                           <Button
-                            className={"w-full mr-1"}
-                            text={"Sell !"}
+                            className="w-full"
+                            text="Confirm"
                             onClick={handleRelistNFT}
                           />
-                          <div
-                            className="flex items-center justify-center w-full ml-1 font-semibold text-white bg-black rounded-lg cursor-pointer"
+                          <button
+                            className="w-full bg-neutral-800 rounded-lg text-white"
                             onClick={() => setPricePop(false)}
                           >
-                            X{" "}
-                          </div>
+                            Cancel
+                          </button>
                         </div>
                       </div>
-                    ) : (
-                      <></>
                     )}
                   </div>
                 ) : (
-                  <button
-                    className={
-                      "w-1/2 bg-neutral-700 text-white p-4 font-semibold  mr-4 rounded-md cursor-default"
-                    }
-                  >
-                    Sell NFT
+                  <button className="w-1/2 bg-neutral-800 text-white py-4 rounded-lg cursor-not-allowed">
+                    List for Sale
                   </button>
                 )}
-                {result?.currentlyListed == true ? (
+
+                {result?.currentlyListed ? (
                   <Button
                     text="Buy NFT"
-                    className={"w-1/2"}
+                    className="w-1/2 py-4 text-lg"
                     onClick={handleBuyNFT}
                   />
                 ) : (
-                  <button
-                    className={
-                      "w-1/2 bg-neutral-700 text-white p-4 font-semibold  mr-4 rounded-md cursor-default"
-                    }
-                  >
+                  <button className="w-1/2 bg-neutral-800 text-white py-4 rounded-lg cursor-not-allowed">
                     Buy NFT
                   </button>
                 )}
               </div>
 
-              {message == "Listed" ? (
-                <div
-                  className="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
-                  role="alert"
-                >
-                  <span className="font-medium">Wait !</span> Transfering
-                  ownership
-                </div>
-              ) : (
-                <></>
-              )}
-
+              {/* STATUS MESSAGE */}
               {message && (
                 <div
-                  className={`absolute p-4 mb-4 text-sm rounded-lg z-100 top-20 ${
+                  className={`mt-4 p-4 rounded-lg text-sm ${
                     message.includes("failed") ||
                     message.includes("Insufficient")
-                      ? "text-red-800 bg-blue-50 dark:bg-gray-800 dark:text-red-500"
+                      ? "bg-red-900/20 text-red-400"
                       : message.includes("successful")
-                      ? "text-green-800 bg-green-50 dark:bg-gray-800 dark:text-green-400"
-                      : "text-blue-800 bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                      ? "bg-green-900/20 text-green-400"
+                      : "bg-blue-900/20 text-blue-400"
                   }`}
-                  role="alert"
                 >
-                  <span className="font-medium">
-                    {message.includes("failed") ||
-                    message.includes("Insufficient")
-                      ? "Error! "
-                      : message.includes("successful")
-                      ? "Success! "
-                      : "Processing! "}
-                  </span>
                   {message}
                 </div>
               )}
-              <hr className="my-6 border-gray-200 md:my-8 dark:border-gray-800" />
 
-              <p className="mb-6 text-gray-500 dark:text-gray-400">{desc}</p>
+              <hr className="border-neutral-800 my-6" />
 
-              <p className="text-gray-500 dark:text-gray-400">
-                <div>Owner : {owner} </div>
-                <div>Seller : {seller} </div>
-              </p>
+              {/* DESCRIPTION */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Description
+                </h3>
+                <p className="text-neutral-400 leading-relaxed">{desc}</p>
+              </div>
+
+              {/* DETAILS */}
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4">
+                  <p className="text-neutral-500">Token ID</p>
+                  <p className="text-white font-medium">{tokenId}</p>
+                </div>
+                <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-4">
+                  <p className="text-neutral-500">Network</p>
+                  <p className="text-white font-medium">Ethereum</p>
+                </div>
+              </div>
+
+              {/* OWNERSHIP */}
+              <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4">
+                <h3 className="text-lg font-semibold text-white mb-3">
+                  Ownership
+                </h3>
+                <p className="text-neutral-400 break-all">
+                  <span className="text-neutral-500">Owner:</span> {owner}
+                </p>
+                <p className="text-neutral-400 break-all mt-2">
+                  <span className="text-neutral-500">Seller:</span> {seller}
+                </p>
+              </div>
             </div>
           </div>
         </div>

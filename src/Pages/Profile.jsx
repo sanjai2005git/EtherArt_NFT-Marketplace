@@ -1,79 +1,108 @@
-import React from 'react'
-import { useContext, useEffect, useState } from 'react';
-import { MyContext } from '../utils/context';
-import ABI from '../utils/ABI.json';
-import { ethers, Contract } from 'ethers';
-import Address from '../utils/Address.json';
-import { use } from 'framer-motion/client';
-import Card from '../components/Card';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { ethers, Contract } from "ethers";
+import ABI from "../utils/ABI.json";
+import Address from "../utils/Address.json";
+import Card from "../components/Card";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
-    // const { provider } = useContext(MyContext);
-    const abi = ABI.abi;
-    const contractAddress = Address.contractAddress;
-    const [result, setResult] = useState([]); 
-    const [youraddress, setYouraddress] = useState(null);             
+  const abi = ABI.abi;
+  const contractAddress = Address.contractAddress;
 
-    const fetchNFTDetails = async () => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-        setYouraddress(signer.address);
-        const contract = new Contract(contractAddress, abi, signer);
-        const res = await contract.getMyNFTs();
-        console.log("res", res.name);
-        setResult(res);
-    };
+  const [result, setResult] = useState([]);
+  const [youraddress, setYouraddress] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetchNFTDetails();
-    }, []);
+  const fetchNFTDetails = async () => {
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      setYouraddress(signer.address);
+
+      const contract = new Contract(contractAddress, abi, signer);
+      const res = await contract.getMyNFTs();
+      setResult(res);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNFTDetails();
+  }, []);
 
   return (
-    <div className="bg-black pt-32 px-44 flex flex-col items-center justify-center">
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="text-white text-5xl font-bold p-6">Your NFTs</h1>{" "}
-        {result.name == undefined && (
-          <div className="text-white p-2 w-2/3">
-            You may not own, even if you are the creater of NFT beacuse you are
-            listing NFT by tranfering ownership to this NFT marketplace.
-            <span className="text-neutral-500 cursor-pointer">
-              {" "}
-              If you really wants to own from this contract pay for ! dont worry
-              ultimatley fee will be tranfer to you.
-            </span>{" "}
-            for more query you can{" "}
+    <div className="min-h-screen bg-black pt-32 px-6 md:px-16 text-white">
+
+      {/* HEADER */}
+      <div className="max-w-6xl mx-auto text-center mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold">Your NFTs</h1>
+        <p className="text-neutral-400 mt-4 max-w-2xl mx-auto">
+          NFTs currently owned by your connected wallet.
+        </p>
+      </div>
+
+      {/* EMPTY STATE */}
+      {!loading && result.length === 0 && (
+        <div className="max-w-3xl mx-auto bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-neutral-300">
+          <p>
+            You may not currently own any NFTs.
+          </p>
+          <p className="mt-2 text-neutral-400 text-sm">
+            If you listed an NFT for sale, ownership is transferred to the
+            marketplace contract until it is sold or relisted.
+          </p>
+          <p className="mt-4 text-sm">
+            Need help?{" "}
             <a
               href="https://github.com/toffee-k21/NFTorium"
-              className="text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
             >
-              reach out to us
+              Reach out on GitHub
             </a>
-          </div>
-        )}
-      </div>
+          </p>
+        </div>
+      )}
 
-      {/* <div className="text-white">You don't own any NFT </div> */}
-      <div className="flex pt-20 px-20 flex-wrap bg-black justify-center">
-        {result?.map((i) => (
-          <Card
-            key={"first-array" + i}
-            className="h-80 w-[373px] rounded-lg text-white bg-gray-100 dark:bg-neutral-900 animate-pulse"
-            tokenId={i[0].toString()}
-          ></Card>
-        ))}
-      </div>
-      <div className='text-neutral-300 text-lg  p-2 m-8'>
-        Check your NFTs on{" "}
-        <Link
-          to={`https://testnets.opensea.io/${youraddress}`}
-          className="text-blue-500"
-        >
-          OpenSea
-        </Link>
-      </div>
+      {/* LOADING */}
+      {loading && (
+        <div className="flex justify-center mt-20">
+          <div className="text-neutral-400">Loading your NFTs...</div>
+        </div>
+      )}
+
+      {/* NFT GRID */}
+      {!loading && result.length > 0 && (
+        <div className="max-w-7xl mx-auto mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {result.map((i) => (
+            <Card
+              key={i[0].toString()}
+              tokenId={i[0].toString()}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* OPENSEA LINK */}
+      {youraddress && (
+        <div className="mt-16 text-center text-neutral-400">
+          View your NFTs on{" "}
+          <a
+            href={`https://testnets.opensea.io/${youraddress}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            OpenSea
+          </a>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default Profile
+export default Profile;
