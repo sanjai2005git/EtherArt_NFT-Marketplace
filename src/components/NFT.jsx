@@ -24,6 +24,8 @@ const NFT = () => {
   const [displayPrice, setDisplayPrice] = useState(0);
   const [address, setAddress] = useState(null);
   const [pricePop, setPricePop] = useState(null);
+  const [isRelisting, setIsRelisting] = useState(false);
+
   const navigate = useNavigate();
   let provider;
 
@@ -57,26 +59,38 @@ const NFT = () => {
     }
   };
 
-  const handleRelistNFT = async () => {
-    if (reSellPrice == null || reSellPrice <= 0) return;
-    provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
+const handleRelistNFT = async () => {
+  if (reSellPrice == null || reSellPrice <= 0 || isRelisting) return;
 
+  provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+
+  try {
     if (owner == signer.address) {
-      let valueInWei = "0";
-      if (reSellPrice != null) {
-        valueInWei = ethers.parseEther(reSellPrice.toString());
-      }
+      setIsRelisting(true);
+      setRelistMessage("Transaction in progress, please wait...");
+
+      let valueInWei = ethers.parseEther(reSellPrice.toString());
       const contract = new Contract(contractAddress, abi, signer);
+
       const res = await contract.relistToken(tokenId, valueInWei, {
         value: ethers.parseEther("0.01"),
       });
-      setRelistMessage("Listed");
+
+      setRelistMessage("Transaction submitted...");
       await res.wait(2);
-      // setOwner(await contract.ownerOf(tokenId));
+
+      setRelistMessage("NFT listed successfully");
       navigate("/profile");
     }
-  };
+  } catch (e) {
+    console.log(e);
+    setRelistMessage("Transaction failed");
+  } finally {
+    setIsRelisting(false);
+  }
+};
+
 
   const handleBuyNFT = async () => {
     try {
@@ -189,13 +203,20 @@ const NFT = () => {
                         <div className="flex gap-2 mt-4">
                           <Button
                             className="w-full"
-                            text="Confirm"
+                            text={isRelisting ? "Please wait..." : "Confirm"}
                             onClick={handleRelistNFT}
+                            disabled={isRelisting}
                           />
+
                           <button
                             className="w-full bg-neutral-800 rounded-lg text-white"
                             onClick={() => setPricePop(false)}
                           >
+                            {relistMessage && (
+                              <p className="mt-2 text-sm text-blue-400">
+                                {relistMessage}
+                              </p>
+                            )}
                             Cancel
                           </button>
                         </div>
