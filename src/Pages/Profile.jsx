@@ -3,7 +3,6 @@ import { ethers, Contract } from "ethers";
 import ABI from "../utils/ABI.json";
 import Address from "../utils/Address.json";
 import Card from "../components/Card";
-import { Link } from "react-router-dom";
 
 const Profile = () => {
   const abi = ABI.abi;
@@ -37,18 +36,27 @@ const Profile = () => {
     <div className="min-h-screen bg-black pt-32 px-6 md:px-16 text-white">
 
       {/* HEADER */}
-      <div className="max-w-6xl mx-auto text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold">Your NFTs</h1>
-        <p className="text-neutral-400 mt-4 max-w-2xl mx-auto">
+      <div className="max-w-7xl mx-auto mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold">
+          Your NFTs
+        </h1>
+        <p className="text-neutral-400 mt-3 max-w-2xl">
           NFTs currently owned by your connected wallet.
         </p>
       </div>
 
+      {/* LOADING */}
+      {loading && (
+        <div className="flex justify-center mt-20">
+          <div className="text-neutral-400">Loading your NFTs...</div>
+        </div>
+      )}
+
       {/* EMPTY STATE */}
       {!loading && result.length === 0 && (
-        <div className="max-w-3xl mx-auto bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-neutral-300">
+        <div className="max-w-4xl mx-auto bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-neutral-300">
           <p>
-            You may not currently own any NFTs.
+            You don’t currently own any NFTs.
           </p>
           <p className="mt-2 text-neutral-400 text-sm">
             If you listed an NFT for sale, ownership is transferred to the
@@ -68,13 +76,6 @@ const Profile = () => {
         </div>
       )}
 
-      {/* LOADING */}
-      {loading && (
-        <div className="flex justify-center mt-20">
-          <div className="text-neutral-400">Loading your NFTs...</div>
-        </div>
-      )}
-
       {/* NFT GRID */}
       {!loading && result.length > 0 && (
         <div className="max-w-7xl mx-auto mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -89,7 +90,7 @@ const Profile = () => {
 
       {/* OPENSEA LINK */}
       {youraddress && (
-        <div className="mt-16 text-center text-neutral-400">
+        <div className="max-w-7xl mx-auto mt-16 text-neutral-400">
           View your NFTs on{" "}
           <a
             href={`https://testnets.opensea.io/${youraddress}`}

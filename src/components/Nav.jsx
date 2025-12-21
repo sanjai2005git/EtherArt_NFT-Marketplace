@@ -10,7 +10,7 @@ const Nav = () => {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-black border-b border-neutral-800">
-      <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto py-4 flex items-center justify-between">
         {/* LEFT — LOGO */}
         <div className="flex items-center gap-3 text-white font-semibold text-lg">
           <img src={logo} alt="NFTorium" className="w-10 h-10" />

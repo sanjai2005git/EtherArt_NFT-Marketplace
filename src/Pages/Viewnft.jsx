@@ -7,33 +7,31 @@ import { Link } from "react-router-dom";
 import { useWallet } from "../utils/WalletProvider";
 
 const Viewnft = () => {
-  let abi = ABI.abi;
+  const abi = ABI.abi;
   const contractAddress = Address.contractAddress;
+
   const [result, setResult] = useState([]);
-  const [resultCopy, setResultCopy] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [search, setSearch] = useState("");
   const [length, setLength] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const { signer } = useWallet();
 
   async function getAllNFTs() {
-    console.log("address:", contractAddress, "abi:", abi, "signer:", signer);
-    const contract = new Contract(contractAddress, abi, signer);
-    console.log("contract", contract);
-    let res;
     try {
-       res = await contract.getAllNFTs();
+      const contract = new Contract(contractAddress, abi, signer);
+      const res = await contract.getAllNFTs();
+
+      setLength(res.length);
+      setResult(res);
+      setFiltered(res);
     } catch (err) {
-      alert("Please switch to sepolia testnet in your metamask !")
+      setError("Please switch to the Sepolia testnet to view NFTs.");
+    } finally {
+      setLoading(false);
     }
-    console.log("re.lems", res?.length);
-    console.log("res", res);
-    setLength(res?.length);
-    setResult(res);
-    setResultCopy(res);
-    // } catch (error) {
-    //   console.error('Error calling getAllNFTs:', error);
-    // }
   }
 
   useEffect(() => {
@@ -41,63 +39,96 @@ const Viewnft = () => {
   }, []);
 
   const handleSearch = () => {
-    setResultCopy(result);
-    search == ""
-      ? setResultCopy(result)
-      : setResultCopy(result.filter((r) => r[0].toString() == search));
+    if (!search) {
+      setFiltered(result);
+      return;
+    }
+    setFiltered(result.filter((r) => r[0].toString() === search));
   };
 
-  return  (
-    <div className="dark:bg-neutral-950">
-      <div className="h-full w-full">
-        <div className="sticky z-40 top-0 left-0 dark:bg-neutral-950 h-40 w-full">
-          <form
-            class=" relative top-24 w-full z-20"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <label className=" mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-              Search
-            </label>
-            <div class="relative flex justify-center items-center">
-              <div className="text-neutral-400 w-1/3 p-[12.5px] border-[1px] border-neutral-200 rounded-lg mb-4 ml-4 font-bold flex justify-center bg-neutral-900">
-                Total Minted NFTs : {length}
-              </div>
-              <Link
-                to={`/view/${length}`}
-                className="text-neutral-400 w-1/3 p-[12.5px] border-[1px] border-neutral-200 rounded-lg mb-4 mx-4 font-bold flex justify-center bg-neutral-900 cursor-pointer"
-                // onClick={() => {console.log(length);setSearch(length)}} // not working try later
-              >
-                Recently Minted NFT{" "}
-              </Link>
-              <input
-                type="search"
-                id="default-search"
-                className="inline-block w-full mb-4 ps-10 text-sm text-gray-900 border-[1px] border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-950 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 lg:mr-4 p-4"
-                placeholder="Search Token ID"
-                // value = {search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button
-                className="text-neutral-400 border-[1px] border-neutral-200 rounded-lg p-[12.5px] mb-4 mr-4"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </div>
-          </form>
-        </div>
-        {
-          length == 0 ? <div>
-            {/* complete card shimmer properly */}
-         <div className="h-screen bg-black z-0 flex gap-2 flex-wrap justify-center">
-         <div className="m-2 md:m-[8px] w-[200px] sm:w-[307px] rounded-md h-4/6 relative flex items-center justify-center bg-neutral-900"></div>
-         <div className="m-2 md:m-[8px] w-[200px] sm:w-[307px] rounded-md h-4/6 relative flex items-center justify-center bg-neutral-900"></div>
-         <div className="m-2 md:m-[8px] w-[200px] sm:w-[307px] rounded-md h-4/6 relative flex items-center justify-center bg-neutral-900"></div>
-         </div>
-        </div> : 
-        <CardContainer nfts={resultCopy} />
-        }
+  return (
+    <div className="min-h-screen bg-black text-white pt-28 px-6 md:px-12">
+
+      {/* HEADER */}
+      <div className="max-w-7xl mx-auto mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">
+          Explore NFTs
+        </h1>
+        <p className="text-neutral-400">
+          Browse all minted NFTs on the marketplace
+        </p>
       </div>
+
+      {/* TOOLBAR */}
+      <div className="max-w-7xl mx-auto mb-10 flex flex-col lg:flex-row gap-4 items-center justify-between">
+
+        {/* STATS */}
+        <div className="flex gap-4 w-full lg:w-auto">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg px-6 py-4">
+            <p className="text-neutral-400 text-sm">Total Minted</p>
+            <p className="text-xl font-semibold">{length}</p>
+          </div>
+
+          <Link
+            to={`/view/${length}`}
+            className="bg-neutral-900 border border-neutral-800 rounded-lg px-6 py-4 flex items-center hover:border-neutral-600 transition"
+          >
+            Recently Minted
+          </Link>
+        </div>
+
+        {/* SEARCH */}
+        <div className="flex w-full lg:w-[420px] gap-2">
+          <input
+            type="number"
+            placeholder="Search by Token ID"
+            className="flex-1 bg-neutral-900 border border-neutral-800 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-600"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="px-5 py-3 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+
+      {/* ERROR */}
+      {error && (
+        <div className="max-w-4xl mx-auto mt-10 bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-neutral-300">
+          {error}
+        </div>
+      )}
+
+      {/* LOADING */}
+      {loading && (
+        <div className="mt-16 flex flex-wrap justify-center gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div
+              key={i}
+              className="w-[280px] h-[380px] bg-neutral-900 rounded-xl animate-pulse"
+            />
+          ))}
+        </div>
+      )}
+
+      {/* EMPTY */}
+      {!loading && !error && filtered.length === 0 && (
+        <div className="mt-20 text-center text-neutral-400">
+          <p className="text-lg">No NFTs found</p>
+          <p className="text-sm mt-2">
+            Try searching with a valid Token ID
+          </p>
+        </div>
+      )}
+
+      {/* NFT GRID */}
+      {!loading && !error && filtered.length > 0 && (
+        <div className="mt-12">
+          <CardContainer nfts={filtered} />
+        </div>
+      )}
     </div>
   );
 };
