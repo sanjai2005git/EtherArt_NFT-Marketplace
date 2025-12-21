@@ -48,20 +48,16 @@ const Viewnft = () => {
 
   return (
     <div className="min-h-screen bg-black text-white pt-28 px-6 md:px-12">
-
       {/* HEADER */}
       <div className="max-w-7xl mx-auto mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold mb-2">
-          Explore NFTs
-        </h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">Explore NFTs</h1>
         <p className="text-neutral-400">
           Browse all minted NFTs on the marketplace
         </p>
       </div>
 
       {/* TOOLBAR */}
-      <div className="max-w-7xl mx-auto mb-10 flex flex-col lg:flex-row gap-4 items-center justify-between">
-
+      <div className="max-w-7xl mx-auto mb-12 flex flex-col lg:flex-row gap-4 items-center justify-between">
         {/* STATS */}
         <div className="flex gap-4 w-full lg:w-auto">
           <div className="bg-neutral-900 border border-neutral-800 rounded-lg px-6 py-4">
@@ -103,11 +99,11 @@ const Viewnft = () => {
 
       {/* LOADING */}
       {loading && (
-        <div className="mt-16 flex flex-wrap justify-center gap-6">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="w-[280px] h-[380px] bg-neutral-900 rounded-xl animate-pulse"
+              className="h-[380px] bg-neutral-900 rounded-xl animate-pulse"
             />
           ))}
         </div>
@@ -117,9 +113,7 @@ const Viewnft = () => {
       {!loading && !error && filtered.length === 0 && (
         <div className="mt-20 text-center text-neutral-400">
           <p className="text-lg">No NFTs found</p>
-          <p className="text-sm mt-2">
-            Try searching with a valid Token ID
-          </p>
+          <p className="text-sm mt-2">Try searching with a valid Token ID</p>
         </div>
       )}
 

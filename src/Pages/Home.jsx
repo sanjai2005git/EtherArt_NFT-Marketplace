@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className="font-mono text-xs">
+    <div className="">
       <WavyBackground className="max-w-4xl mx-auto pb-40">
         <p className="text-2xl md:text-4xl lg:text-7xl text-white font-bold inter-var text-center">
           <TextGenerateEffect
