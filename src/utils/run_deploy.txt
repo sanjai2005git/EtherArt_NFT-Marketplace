@@ -1,0 +1,7 @@
+cdEtherartd  // project inside folder
+cd hardhat
+npx hardhat run scripts/deploy.js --network sepolia
+
+In new terminal :
+cd Etherart // project inside folder
+npm run dev

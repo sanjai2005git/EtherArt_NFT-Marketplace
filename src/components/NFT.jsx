@@ -291,7 +291,7 @@ const handleRelistNFT = async () => {
                 </h3>
                 <p className="text-neutral-400 break-all">
                   <span className="text-neutral-500">Owner:</span>{" "}
-                  {owner == contractAddress ? "Held by NFTorium" : owner}
+                  {owner == contractAddress ? "Held by EtherArt" : owner}
                 </p>
                 <p className="text-neutral-400 break-all mt-2">
                   <span className="text-neutral-500">Seller:</span> {seller}

@@ -3,8 +3,8 @@ import * as dotenv from "dotenv";
 
 // dotenv.config();
 
-const key = "d1fed96106d84d47a209";
-const secret = "643c32b00e6b72e2a454b69d40d197837f07c8c844d8db2655fec2daff4bc791";
+const key = "c1c9d87fb02d85bf0f80";
+const secret = "e623e5b3f28a003e6cabab87725e63c696de7f6b5a2e271e24896fc88fa6f9d9";
 // const key = process.env.NEXT_PUBLIC_PINATA_KEY;
 // const secret = process.env.PINATA_SECRET_KEY;
 export const uploadFileToIPFS = async (file)=>{

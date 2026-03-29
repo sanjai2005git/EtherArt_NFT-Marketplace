@@ -62,17 +62,6 @@ const Profile = () => {
             If you listed an NFT for sale, ownership is transferred to the
             marketplace contract until it is sold or relisted.
           </p>
-          <p className="mt-4 text-sm">
-            Need help?{" "}
-            <a
-              href="https://github.com/toffee-k21/NFTorium"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              Reach out on GitHub
-            </a>
-          </p>
         </div>
       )}
 
