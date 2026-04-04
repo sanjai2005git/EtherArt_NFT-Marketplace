@@ -1,0 +1,9 @@
+---
+- name: Deploy EtherArt
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Build Docker image
+      command: docker build -t etherart-frontend:latest .
+    - name: Run container
+      command: docker run -d -p 80:80 etherart-frontend:latest
