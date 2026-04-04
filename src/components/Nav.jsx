@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "../utils/context";
 import Button from "./Button";
-import logo from "../assets/NFTorium-logo.png";
+import logo from "../assets/etherart.png";
 import { useWallet } from "../utils/WalletProvider";
 
 const Nav = () => {
@@ -19,7 +19,7 @@ const Nav = () => {
             <span>
               <img src={logo} className="w-14 inline-block" />
             </span>
-            <span className="mx-4 text-gray-500"> | </span> NFTorium
+            <span className="mx-4 text-gray-500"> | </span> EtherArt
           </div>
           <button
             className="w-full bg-[#383737] px-3 py-2 hover:bg-[#4f4e4e] sm:w-auto sm:bg-transparent text-white sm:block hidden  text-white font-semibold rounded-lg text-center bg-gradient-to-r p-2 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)] cursor-pointer flex justify-center items-center "

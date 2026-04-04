@@ -44,36 +44,3 @@ const Profile = () => {
             </span>{" "}
             for more query you can{" "}
             <a
-              href="https://github.com/toffee-k21/NFTorium"
-              className="text-blue-500"
-            >
-              reach out to us
-            </a>
-          </div>
-        )}
-      </div>
-
-      {/* <div className="text-white">You don't own any NFT </div> */}
-      <div className="flex pt-20 px-20 flex-wrap bg-black justify-center">
-        {result?.map((i) => (
-          <Card
-            key={"first-array" + i}
-            className="h-80 w-[373px] rounded-lg text-white bg-gray-100 dark:bg-neutral-900 animate-pulse"
-            tokenId={i[0].toString()}
-          ></Card>
-        ))}
-      </div>
-      <div className='text-neutral-300 text-lg  p-2 m-8'>
-        Check your NFTs on{" "}
-        <Link
-          to={`https://testnets.opensea.io/${youraddress}`}
-          className="text-blue-500"
-        >
-          OpenSea
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-export default Profile
