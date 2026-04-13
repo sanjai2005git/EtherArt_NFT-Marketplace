@@ -1,7 +1,7 @@
 # 🌟 Welcome to NFTorium 🌟
 NFTorium is your gateway to the world of digital art and collectibles! Built on the Sepolia Ethereum Testnet, NFTorium is a decentralized marketplace where users can mint, buy, sell, and trade NFTs effortlessly. 🚀
 
-To VIEW this project --> "https://main.d1gzsd5ubv7ogp.amplifyapp.com/"  DEPLOYED ON AWS AMPLIFY
+To VIEW this project --> "https://main.d3jj4rk1wvog07.amplifyapp.com/"  DEPLOYED ON AWS AMPLIFY
 
 This project is open source and thrives on collaboration! Join us in shaping the future of decentralized marketplaces. 💻✨
 
